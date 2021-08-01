@@ -64,3 +64,23 @@ type AccountHold struct {
 	Type      string          `json:"type"`
 	Ref       string          `json:"ref"`
 }
+
+// Order represents a Coinbase Pro order object.
+// This model is based off of the example response data from https://docs.pro.coinbase.com/#orders.
+type Order struct {
+	ID            string                  `json:"id"`
+	Price         decimal.Decimal         `json:"price"`
+	Size          decimal.Decimal         `json:"size"`
+	ProductID     string                  `json:"product_id"`
+	Side          OrderSide               `json:"side"`
+	STP           SelfTradePreventionFlag `json:"stp"`
+	Type          OrderType               `json:"type"`
+	TimeInForce   TimeInForceOption       `json:"time_in_force"`
+	PostOnly      bool                    `json:"post_only"`
+	CreatedAt     time.Time               `json:"created_at"`
+	FillFees      decimal.Decimal         `json:"fill_fees"`
+	FilledSize    decimal.Decimal         `json:"filled_size"`
+	ExecutedValue decimal.Decimal         `json:"executed_value"`
+	Status        string                  `json:"status"`
+	Settled       bool                    `json:"settled"`
+}
