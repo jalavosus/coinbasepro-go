@@ -2,6 +2,7 @@ package coinbasepro
 
 import (
 	"encoding/json"
+	"time"
 
 	"github.com/shopspring/decimal"
 
@@ -125,6 +126,72 @@ func (p *Product) UnmarshalJSON(data []byte) error {
 	p.PostOnly = rawMap["post_only"].(bool)
 	p.TradingDisabled = rawMap["trading_disabled"].(bool)
 	p.FxStablecoin = rawMap["fx_stablecoin"].(bool)
+
+	return nil
+}
+
+type AccountHistoryEntry struct {
+	ID        string
+	CreatedAt time.Time
+	Amount    decimal.Decimal
+	Balance   decimal.Decimal
+	Type      string
+	Details   *AccountHistoryEntryDetails
+}
+
+type AccountHistoryEntryDetails struct {
+	OrderID   string `json:"order_id"`
+	TradeID   string `json:"trade_id"`
+	ProductID string `json:"product_id"`
+}
+
+func (e AccountHistoryEntry) MarshalJSON() ([]byte, error) {
+	rawMap := map[string]interface{}{
+		"id":         e.ID,
+		"created_at": util.TimeToTimestampString(e.CreatedAt),
+		"amount":     e.Amount.String(),
+		"balance":    e.Balance.String(),
+		"type":       e.Type,
+	}
+
+	if e.Details != nil {
+		rawMap["details"] = map[string]interface{}{
+			"order_id":   e.Details.OrderID,
+			"trade_id":   e.Details.TradeID,
+			"product_id": e.Details.ProductID,
+		}
+	}
+
+	return json.Marshal(rawMap)
+}
+
+// UnmarshalJSON is specifically implemented to enable parsing fields
+// which are returned by the API as strings into decimal.Decimal objects.
+func (e *AccountHistoryEntry) UnmarshalJSON(data []byte) error {
+	var rawMap map[string]interface{}
+
+	if err := json.Unmarshal(data, &rawMap); err != nil {
+		return err
+	}
+
+	e.ID = rawMap["id"].(string)
+	e.CreatedAt = util.ParseTimestampFromString(rawMap["created_at"].(string))
+	e.Amount = util.StringToDecimal(rawMap["amount"].(string))
+	e.Balance = util.StringToDecimal(rawMap["balance"].(string))
+	e.Type = rawMap["type"].(string)
+
+	rawDetails, ok := rawMap["details"]
+	if ok {
+		var details *AccountHistoryEntryDetails
+		marshaledDetails, err := json.Marshal(rawDetails)
+		if err != nil {
+			return err
+		}
+		if err := json.Unmarshal(marshaledDetails, &details); err != nil {
+			return err
+		}
+		e.Details = details
+	}
 
 	return nil
 }

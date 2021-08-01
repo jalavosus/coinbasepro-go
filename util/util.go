@@ -32,3 +32,9 @@ func ParseTimestampFromString(s string) time.Time {
 
 	return t
 }
+
+// TimeToTimestampString returns the string representation
+// of a time.Time object, formatted using CoinbaseTimeFormat.
+func TimeToTimestampString(t time.Time) string {
+	return t.Format(CoinbaseTimeFormat)
+}

@@ -4,10 +4,21 @@ import (
 	"os"
 	"testing"
 
+	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/jalavosus/coinbasepro-go"
 )
+
+func TestMain(m *testing.M) {
+	if err := godotenv.Load(); err != nil {
+		panic(err)
+	}
+
+	code := m.Run()
+
+	os.Exit(code)
+}
 
 func TestGetAccount(t *testing.T) {
 	type args struct {
@@ -90,4 +101,41 @@ func TestGetAccounts(t *testing.T) {
 	}
 
 	assert.NotEmpty(t, got)
+}
+
+func TestGetAccountHistory(t *testing.T) {
+	type args struct {
+		accountID string
+		params    *coinbasepro.GetAccountHistoryParams
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name:    "USDC",
+			args:    args{accountID: os.Getenv("TEST_USDC_ACCOUNT_ID")},
+			wantErr: false,
+		},
+		{
+			name:    "SHIB",
+			args:    args{accountID: os.Getenv("TEST_SHIB_ACCOUNT_ID")},
+			wantErr: false,
+		},
+		{
+			name:    "INVALID",
+			args:    args{accountID: os.Getenv("TEST_INVALID_ACCOUNT_ID")},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			_, err := coinbasepro.GetAccountHistory(tt.args.accountID, tt.args.params)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetAccountHistory() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+		})
+	}
 }

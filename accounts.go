@@ -69,3 +69,22 @@ func GetAccountFromCurrency(currency string) (*Account, error) {
 
 	return account, nil
 }
+
+// GetAccountHistory wraps the /accounts/<account-id>/ledger API endpoint,
+// returning an array of ledger entries for the specified account.
+func GetAccountHistory(accountID string, params *GetAccountHistoryParams) ([]*AccountHistoryEntry, error) {
+	var historyEntries []*AccountHistoryEntry
+
+	endpoint := fmt.Sprintf(endpoints.AccountHistory, accountID)
+
+	respBody, err := apirequests.GETRequest(endpoint, nil)
+	if err != nil {
+		return nil, errors.Wrap(err, "GetAccountHistory() error")
+	}
+
+	if err := json.Unmarshal(respBody, &historyEntries); err != nil {
+		return nil, errors.Wrap(err, "GetAccountHistory() error")
+	}
+
+	return historyEntries, nil
+}

@@ -8,8 +8,8 @@ const (
 const (
 	Accounts       string = "/accounts"
 	Account               = Accounts + "/%[1]s" // formatted value must be an account ID.
-	AccountHistory        = Accounts + "/ledger"
-	AccountHolds          = Accounts + "/holds"
+	AccountHistory        = Account + "/ledger"
+	AccountHolds          = Account + "/holds"
 )
 
 const (

@@ -13,13 +13,13 @@ import (
 	"github.com/jalavosus/coinbasepro-go/util/secrets"
 )
 
-func GETRequest(endpoint string, params map[string]string) ([]byte, error) {
+func GETRequest(endpoint string, params RequestParams) ([]byte, error) {
 	return request(endpoint, "GET", params, nil)
 }
 
 // POSTRequest fires off a POST request to the specifed endpoint. If body is non-nil,
 // it is added to the request.
-func POSTRequest(endpoint string, body interface{}, params map[string]string) ([]byte, error) {
+func POSTRequest(endpoint string, body interface{}, params RequestParams) ([]byte, error) {
 	var reqBody []byte = nil
 	if body != nil {
 		var marshalErr error
@@ -34,12 +34,12 @@ func POSTRequest(endpoint string, body interface{}, params map[string]string) ([
 }
 
 // DELETERequest fires off a DELETE request to the specified endpoint.
-func DELETERequest(endpoint string, params map[string]string) ([]byte, error) {
+func DELETERequest(endpoint string, params RequestParams) ([]byte, error) {
 	return request(endpoint, "DELETE", params, nil)
 }
 
 // request does all of the hard work for GETRequest, POSTRequest, etc.
-func request(endpoint, method string, params map[string]string, body []byte) ([]byte, error) {
+func request(endpoint, method string, params RequestParams, body []byte) ([]byte, error) {
 	req := fasthttp.AcquireRequest()
 	resp := fasthttp.AcquireResponse()
 	defer fasthttp.ReleaseRequest(req)
@@ -76,15 +76,18 @@ func setHeaders(basePath, method string, body []byte, req *fasthttp.Request) {
 	req.Header.Set(headers.AccessTimestamp, timestamp)
 }
 
-func buildURIWithParams(endpoint string, params map[string]string) *url.URL {
-	values := url.Values{}
-	for param, value := range params {
-		values.Set(param, value)
+func buildURIWithParams(endpoint string, params RequestParams) *url.URL {
+	var rawUri = endpoint
+
+	if params != nil {
+		encodedParams := params.GetEncoded()
+		if len(encodedParams) > 0 {
+			rawUri += "?" + encodedParams
+		}
+
 	}
 
-	encodedParams := values.Encode()
-
-	uri, err := url.Parse(endpoint + "?" + encodedParams)
+	uri, err := url.Parse(rawUri)
 	if err != nil {
 		panic(errors.Wrap(err, "Unable to build parsed URI"))
 	}
