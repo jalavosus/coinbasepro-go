@@ -10,7 +10,7 @@ import (
 
 	"github.com/jalavosus/coinbasepro-go/internal/endpoints"
 	"github.com/jalavosus/coinbasepro-go/internal/headers"
-	"github.com/jalavosus/coinbasepro-go/internal/secrets"
+	"github.com/jalavosus/coinbasepro-go/util/secrets"
 )
 
 func GETRequest(endpoint string, params map[string]string) ([]byte, error) {

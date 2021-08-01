@@ -10,7 +10,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/jalavosus/coinbasepro-go/internal/secrets"
+	"github.com/jalavosus/coinbasepro-go/util/secrets"
 )
 
 // BuildRequestSignature builds the signature required by the Coinbase Pro API for the CB-ACCESS-SIGN

@@ -5,7 +5,7 @@ import (
 
 	"github.com/shopspring/decimal"
 
-	"github.com/jalavosus/coinbasepro-go/internal/util"
+	"github.com/jalavosus/coinbasepro-go/util"
 )
 
 // Account represents a Coinbase Pro portfolio account for a given currency.
