@@ -7,14 +7,14 @@ const (
 
 const (
 	Accounts       string = "/accounts"
-	Account               = Accounts + "/%[1]s" // formatted value must be an account Id.
+	Account               = Accounts + "/%[1]s" // formatted value must be an account ID.
 	AccountHistory        = Account + "/ledger"
 	AccountHolds          = Account + "/holds"
 )
 
 const (
 	Orders string = "/orders"
-	Order         = Orders + "/%[1]s" // formatted value must be an order Id.
+	Order         = Orders + "/%[1]s" // formatted value must be an order ID.
 )
 
 const Fills string = "/fills"
@@ -30,7 +30,7 @@ const (
 
 const (
 	Products      string = "/products"
-	Product              = Products + "/%[1]s" // formatted value must be a valid Product Id.
+	Product              = Products + "/%[1]s" // formatted value must be a valid Product ID.
 	ProductTicker        = Product + "/ticker"
 	ProductTrades        = Product + "/trades"
 )

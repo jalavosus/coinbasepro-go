@@ -9,19 +9,19 @@ import (
 // Account represents a Coinbase Pro portfolio account for a given currency.
 // This model is based off of the example response data from https://docs.pro.coinbase.com/#accounts.
 type Account struct {
-	Id             string          `json:"id"`
+	ID             string          `json:"id"`
 	Currency       string          `json:"currency"`
 	Balance        decimal.Decimal `json:"balance"`
 	Available      decimal.Decimal `json:"available"`
 	Hold           decimal.Decimal `json:"hold"`
-	ProfileId      string          `json:"profile_id"`
+	ProfileID      string          `json:"profile_id"`
 	TradingEnabled bool            `json:"trading_enabled"`
 }
 
 // Product represents a Coinbase Pro product object.
 // This model is based off of the example response data from https://docs.pro.coinbase.com/#products.
 type Product struct {
-	Id              string          `json:"id"`
+	ID              string          `json:"id"`
 	DisplayName     string          `json:"display_name"`
 	BaseCurrency    string          `json:"base_currency"`
 	QuoteCurrency   string          `json:"quote_currency"`
@@ -41,7 +41,7 @@ type Product struct {
 }
 
 type AccountHistoryEntry struct {
-	Id        string                      `json:"id"`
+	ID        string                      `json:"id"`
 	CreatedAt time.Time                   `json:"created_at"`
 	Amount    decimal.Decimal             `json:"amount"`
 	Balance   decimal.Decimal             `json:"balance"`
@@ -50,14 +50,14 @@ type AccountHistoryEntry struct {
 }
 
 type AccountHistoryEntryDetails struct {
-	OrderId   string `json:"order_id"`
-	TradeId   string `json:"trade_id"`
-	ProductId string `json:"product_id"`
+	OrderID   string `json:"order_id"`
+	TradeID   string `json:"trade_id"`
+	ProductID string `json:"product_id"`
 }
 
 type AccountHold struct {
-	Id        string          `json:"id"`
-	AccountId string          `json:"account_id"`
+	ID        string          `json:"id"`
+	AccountID string          `json:"account_id"`
 	CreatedAt time.Time       `json:"created_at"`
 	UpdatedAt time.Time       `json:"updated_at"`
 	Amount    decimal.Decimal `json:"amount"`
