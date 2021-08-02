@@ -10,10 +10,20 @@ import (
 	"github.com/jalavosus/coinbasepro-go"
 )
 
+var (
+	btcAccountID     string
+	ethAccountID     string
+	invalidAccountID string
+)
+
 func TestMain(m *testing.M) {
 	if err := godotenv.Load(); err != nil {
 		panic(err)
 	}
+
+	btcAccountID = os.Getenv("TEST_BTC_ACCOUNT_ID")
+	ethAccountID = os.Getenv("TEST_ETH_ACCOUNT_ID")
+	invalidAccountID = os.Getenv("TEST_INVALID_ACCOUNT_ID")
 
 	code := m.Run()
 
@@ -30,18 +40,18 @@ func TestGetAccount(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name:    "USDC",
-			args:    args{os.Getenv("TEST_USDC_ACCOUNT_ID")},
+			name:    "BTC",
+			args:    args{btcAccountID},
 			wantErr: false,
 		},
 		{
-			name:    "SHIB",
-			args:    args{os.Getenv("TEST_SHIB_ACCOUNT_ID")},
+			name:    "ETH",
+			args:    args{ethAccountID},
 			wantErr: false,
 		},
 		{
 			name:    "INVALID",
-			args:    args{os.Getenv("TEST_INVALID_ACCOUNT_ID")},
+			args:    args{invalidAccountID},
 			wantErr: true,
 		},
 	}
@@ -67,8 +77,8 @@ func TestGetAccountFromCurrency(t *testing.T) {
 		wantNil bool
 	}{
 		{
-			name:    "USDC",
-			args:    args{"USDC"},
+			name:    "ETH",
+			args:    args{"ETH"},
 			wantErr: false,
 			wantNil: false,
 		},
@@ -114,18 +124,18 @@ func TestGetAccountHistory(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name:    "USDC",
-			args:    args{accountID: os.Getenv("TEST_USDC_ACCOUNT_ID")},
+			name:    "BTC",
+			args:    args{accountID: btcAccountID},
 			wantErr: false,
 		},
 		{
-			name:    "SHIB",
-			args:    args{accountID: os.Getenv("TEST_SHIB_ACCOUNT_ID")},
+			name:    "ETH",
+			args:    args{accountID: ethAccountID},
 			wantErr: false,
 		},
 		{
 			name:    "INVALID",
-			args:    args{accountID: os.Getenv("TEST_INVALID_ACCOUNT_ID")},
+			args:    args{accountID: invalidAccountID},
 			wantErr: true,
 		},
 	}

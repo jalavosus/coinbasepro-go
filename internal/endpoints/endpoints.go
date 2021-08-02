@@ -1,9 +1,34 @@
 package endpoints
 
-const (
-	RestAPI       string = "https://api.pro.coinbase.com"
-	WebsocketFeed string = "wss://ws-feed.pro.coinbase.com"
+import (
+	"github.com/jalavosus/coinbasepro-go/util/secrets"
 )
+
+const (
+	ProductionRestAPIURI       string = "https://api.pro.coinbase.com"
+	ProductionWebsocketFeedURI string = "wss://ws-feed.pro.coinbase.com"
+)
+
+const (
+	SandboxRestAPIURI       string = "https://api-public.sandbox.pro.coinbase.com"
+	SandboxWebsocketFeedURI string = "wss://ws-feed-public.sandbox.pro.coinbase.com"
+)
+
+func RestAPIURI() string {
+	if secrets.UseSandbox() {
+		return SandboxRestAPIURI
+	}
+
+	return ProductionRestAPIURI
+}
+
+func WebsocketFeedURI() string {
+	if secrets.UseSandbox() {
+		return SandboxWebsocketFeedURI
+	}
+
+	return ProductionWebsocketFeedURI
+}
 
 const (
 	Accounts       string = "/accounts"

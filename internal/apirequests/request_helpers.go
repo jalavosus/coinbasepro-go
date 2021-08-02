@@ -45,7 +45,7 @@ func request(endpoint, method string, params RequestParams, body []byte) ([]byte
 	defer fasthttp.ReleaseRequest(req)
 	defer fasthttp.ReleaseResponse(resp)
 
-	uri := buildURIWithParams(endpoints.RestAPI+endpoint, params)
+	uri := buildURIWithParams(endpoint, params)
 	req.SetRequestURI(uri.String())
 	setHeaders(uri.Path, strings.ToUpper(method), body, req)
 
@@ -77,7 +77,7 @@ func setHeaders(basePath, method string, body []byte, req *fasthttp.Request) {
 }
 
 func buildURIWithParams(endpoint string, params RequestParams) *url.URL {
-	var rawUri = endpoint
+	var rawUri = endpoints.RestAPIURI() + endpoint
 
 	if params != nil {
 		encodedParams := params.GetEncoded()
