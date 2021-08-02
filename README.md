@@ -1,4 +1,7 @@
 # coinbasepro-go
+[![Test](https://github.com/jalavosus/coinbasepro-go/actions/workflows/test.yml/badge.svg)](https://github.com/jalavosus/coinbasepro-go/actions/workflows/test.yml)
+[![Lint](https://github.com/jalavosus/coinbasepro-go/actions/workflows/lint.yml/badge.svg?branch=master)](https://github.com/jalavosus/coinbasepro-go/actions/workflows/lint.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/jalavosus/coinbasepro-go.svg)](https://pkg.go.dev/github.com/jalavosus/coinbasepro-go)
 
 Go wrapper around the Coinbase Pro API, using [fasthttp](https://github.com/valyala/fasthttp) for 
 firing off API requests.
