@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  workflow_run:
+    workflows:
+      - "Lint"
+      - "Test
+    branches:
+      - master
+    types:
+      - completed
+
+
+jobs:
+  bump_version:
+    runs-on: ubuntu-latest
+    if: ${{ !contains(toJSON(github.event.commits.*.message), '[ci norelease]') && github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v2
+
+      - name: Git Fetch Unshallow
+        run: git fetch --prune --unshallow
+
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.35.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true

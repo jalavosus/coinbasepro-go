@@ -1,0 +1,58 @@
+run:
+  concurrency: 10
+  tests: true
+  skip-dirs-use-default: false
+  timeout: 10m
+
+linters-settings:
+  golint:
+    min-confidence: 0.8
+  gofmt:
+    simplify: true
+  gocritic:
+    disabled-checks:
+      - commentFormatting
+
+
+linters:
+  enable-all: true
+  disable:
+    - tagliatelle
+    - goimports
+    - gochecknoglobals
+    - gci
+    - lll
+    - maligned
+    - funlen
+    - gocyclo
+    - cyclop
+    - prealloc
+    - gomnd
+    - gochecknoinits
+    - godox
+    - exhaustivestruct
+    - interfacer
+    - paralleltest
+    - goerr113
+    - wrapcheck
+    - wsl
+    - gomoddirectives
+    - gofumpt
+  fast: false
+
+issues:
+  exclude-use-default: false
+  exclude-rules:
+    - linters:
+        - godot
+      text: "Comment should end in a period"
+    - linters:
+        - revive
+      text: "exported: type name will be used as"
+    - path: _test\.go
+      linters:
+        - gosimple
+        - gofmt
+        - goimports
+        - govet
+      text: "`tt` in function literal"
