@@ -17,9 +17,7 @@ var (
 )
 
 func TestMain(m *testing.M) {
-	if err := godotenv.Load(); err != nil {
-		panic(err)
-	}
+	_ = godotenv.Load()
 
 	btcAccountID = os.Getenv("TEST_BTC_ACCOUNT_ID")
 	ethAccountID = os.Getenv("TEST_ETH_ACCOUNT_ID")
