@@ -63,6 +63,7 @@ func GetAccountFromCurrency(currency string) (*Account, error) {
 	for _, a := range allAccounts {
 		if a.Currency == currency {
 			account = a
+
 			break
 		}
 	}

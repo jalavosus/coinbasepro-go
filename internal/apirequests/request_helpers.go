@@ -17,10 +17,10 @@ func GETRequest(endpoint string, params RequestParams) ([]byte, error) {
 	return request(endpoint, "GET", params, nil)
 }
 
-// POSTRequest fires off a POST request to the specifed endpoint. If body is non-nil,
+// POSTRequest fires off a POST request to the specified endpoint. If body is non-nil,
 // it is added to the request.
 func POSTRequest(endpoint string, body interface{}, params RequestParams) ([]byte, error) {
-	var reqBody []byte = nil
+	var reqBody []byte
 	if body != nil {
 		var marshalErr error
 		reqBody, marshalErr = json.Marshal(body)
@@ -30,7 +30,6 @@ func POSTRequest(endpoint string, body interface{}, params RequestParams) ([]byt
 	}
 
 	return request(endpoint, "POST", params, reqBody)
-
 }
 
 // DELETERequest fires off a DELETE request to the specified endpoint.
@@ -77,17 +76,16 @@ func setHeaders(basePath, method string, body []byte, req *fasthttp.Request) {
 }
 
 func buildURIWithParams(endpoint string, params RequestParams) *url.URL {
-	var rawUri = endpoints.RestAPIURI() + endpoint
+	var rawURI = endpoints.RestAPIURI() + endpoint
 
 	if params != nil {
 		encodedParams := params.GetEncoded()
 		if len(encodedParams) > 0 {
-			rawUri += "?" + encodedParams
+			rawURI += "?" + encodedParams
 		}
-
 	}
 
-	uri, err := url.Parse(rawUri)
+	uri, err := url.Parse(rawURI)
 	if err != nil {
 		panic(errors.Wrap(err, "Unable to build parsed URI"))
 	}

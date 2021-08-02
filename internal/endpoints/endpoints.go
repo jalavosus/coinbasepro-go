@@ -5,31 +5,36 @@ import (
 )
 
 const (
-	ProductionRestAPIURI       string = "https://api.pro.coinbase.com"
-	ProductionWebsocketFeedURI string = "wss://ws-feed.pro.coinbase.com"
+	productionRestAPIURI       string = "https://api.pro.coinbase.com"
+	productionWebsocketFeedURI string = "wss://ws-feed.pro.coinbase.com"
 )
 
 const (
-	SandboxRestAPIURI       string = "https://api-public.sandbox.pro.coinbase.com"
-	SandboxWebsocketFeedURI string = "wss://ws-feed-public.sandbox.pro.coinbase.com"
+	sandboxRestAPIURI       string = "https://api-public.sandbox.pro.coinbase.com"
+	sandboxWebsocketFeedURI string = "wss://ws-feed-public.sandbox.pro.coinbase.com"
 )
 
+// RestAPIURI returns a Coinbase Pro REST API URI based on whether or not the COINBASE_USE_SANDBOX
+// environment variable is set to true or not (or is unset)
 func RestAPIURI() string {
 	if secrets.UseSandbox() {
-		return SandboxRestAPIURI
+		return sandboxRestAPIURI
 	}
 
-	return ProductionRestAPIURI
+	return productionRestAPIURI
 }
 
+// WebsocketFeedURI returns a Coinbase Pro Websocket Feed API based on whether or not the COINBASE_USE_SANDBOX
+// environment variable is set to true or not (or is unset)
 func WebsocketFeedURI() string {
 	if secrets.UseSandbox() {
-		return SandboxWebsocketFeedURI
+		return sandboxWebsocketFeedURI
 	}
 
-	return ProductionWebsocketFeedURI
+	return productionWebsocketFeedURI
 }
 
+// Endpoints for account interaction
 const (
 	Accounts       string = "/accounts"
 	Account               = Accounts + "/%[1]s" // formatted value must be an account ID.
@@ -37,15 +42,23 @@ const (
 	AccountHolds          = Account + "/holds"
 )
 
+// Endpoints for order interaction
 const (
 	Orders string = "/orders"
 	Order         = Orders + "/%[1]s" // formatted value must be an order ID.
 )
 
-const Fills string = "/fills"
+// Endpoints for fills interaction
+const (
+	Fills string = "/fills"
+)
 
-const Transfers string = "/transfers"
+// Endpoints for transfers interaction
+const (
+	Transfers string = "/transfers"
+)
 
+//nolint:unused,varcheck
 const (
 	transferTypeDeposit          string = "deposit"
 	transferTypeInternalDeposit  string = "internal_deposit"

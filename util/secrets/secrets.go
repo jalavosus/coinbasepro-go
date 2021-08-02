@@ -8,6 +8,7 @@ import (
 	"github.com/pkg/errors"
 )
 
+//nolint:gosec
 const (
 	envCoinbaseAPIKey        string = "COINBASE_API_KEY"
 	envCoinbaseAPISecret     string = "COINBASE_API_SECRET"

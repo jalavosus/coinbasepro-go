@@ -1,7 +1,7 @@
 run:
   concurrency: 10
   tests: true
-  skip-dirs-use-default: false
+  skip-dirs-use-default: true
   timeout: 10m
 
 linters-settings:
@@ -41,7 +41,7 @@ linters:
   fast: false
 
 issues:
-  exclude-use-default: false
+  exclude-use-default: true
   exclude-rules:
     - linters:
         - godot
@@ -55,4 +55,11 @@ issues:
         - gofmt
         - goimports
         - govet
-      text: "`tt` in function literal"
+        - scopelint
+        - nlreturn
+    - path: internal/endpoints/endpoints.go
+      linters:
+        - deadcode
+    - path: internal/headers/headers.go
+      linters:
+        - golint
